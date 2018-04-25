@@ -1,0 +1,9 @@
+extends layout
+ 
+block content
+  h2 #{titles}
+  ul.list-group
+    each song, i in songs 
+      li.list-group-item
+        a(href='/song/'+song.id)= song.name
+   

@@ -1,0 +1,16 @@
+{
+  "name": "songplaylist",
+  "version": "1.0.0",
+  "description": "songs playlist crud app",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app"
+  },
+  "author": "Rohito Bhambhani",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3",
+    "mongoose": "^5.0.16",
+    "pug": "^2.0.3"
+  }
+}

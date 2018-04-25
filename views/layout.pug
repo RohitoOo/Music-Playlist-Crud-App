@@ -1,0 +1,37 @@
+doctype html
+html
+ head
+  title Rohito's CRUD App
+  link(rel="stylesheet" , href="/bower_components/bootstrap/dist/css/bootstrap.css")
+  link(rel="stylesheet" , href="/css/style.css")  
+ body
+   
+   nav.navbar.navbar-expand-md.navbar-dark.bg-dark.mb-4
+    a.navbar-brand(href='#') Songs Playlist
+    button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarCollapse', aria-controls='navbarCollapse', aria-expanded='false', aria-label='Toggle navigation')
+      span.navbar-toggler-icon
+    #navbarCollapse.collapse.navbar-collapse
+      ul.navbar-nav.mr-auto
+        li.nav-item
+          a.nav-link(href='/')
+            | Songs 
+            span.sr-only (current)
+        li.nav-item
+          a.nav-link(href='/songs/add') Add Song
+        li.nav-item
+      
+      ul.navbar-nav.ml-auto
+        li.nav-item
+          a.nav-link(href='#') Login
+        li.nav-item
+          a.nav-link(href='#') Register
+        li.nav-item         
+ .container
+       block content
+       br
+       hr
+       footer
+          p Rohito &reg;
+script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')  
+script(src='/bower_components/bootstrap/dist/js/bootstrap.js')
+script(src="/js/main.js")        

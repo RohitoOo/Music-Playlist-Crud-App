@@ -1,0 +1,16 @@
+extends layout
+ 
+block content
+
+    h1 Add Song 
+    form(method='POST', action='/songs/add')
+      #form-group
+        label Name:
+        input.form-control(name='name', type='text')
+      br
+      #form-group
+          label Artist:
+          input.form-control(name='artist', type='text')
+      br    
+      input.btn.btn-primary(type='submit',value='Submit') 
+    
