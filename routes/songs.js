@@ -116,7 +116,7 @@ router.get('/:id', function(req, res) {
         res.render('song', {
 
           song: song,
-          identity: user
+          // identity: user
         });
       })
     })
