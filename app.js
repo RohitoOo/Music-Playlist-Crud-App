@@ -2,8 +2,14 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+const expressValidator = require('express-validator');
+const flash = require('connect-flash');
+const session = require('express-session')
+const passport = require('passport')
+const config = require('./config/database')
 
-mongoose.connect('mongodb://localhost/songsdatabase')
+
+mongoose.connect(config.database)
 let db = mongoose.connection;
 
 // Check connection
@@ -40,6 +46,49 @@ app.use(bodyParser.json())
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+
+app.use(expressValidator());
+
+//Express session Middleware
+
+app.use(session({
+  secret: 'keyboard cat',
+  resave: true,
+  saveUninitialized: true,
+}))
+
+
+// Express Message Flash Middleware
+
+app.use(require('connect-flash')());
+app.use(function (req, res, next) {
+  res.locals.messages = require('express-messages')(req, res);
+  next();
+});
+
+
+
+// Passport Config
+
+require('./config/passport')(passport);
+
+//Passport Middleware
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+// Check if the user is logged in 
+
+app.get('*' , function(req, res, next){
+
+res.locals.user = req.user || null ;
+next();
+
+});
+
+
 // Home Route
 
 app.get('/', function(req, res) {
@@ -57,108 +106,23 @@ app.get('/', function(req, res) {
 });
 
 
-// Route for Single article
-
-app.get('/song/:id', function(req, res) {
-
-    Song.findById(req.params.id, function(err, song) {
-
-      res.render('song', {song: song});
-
-    })
-  })
 
 
 
+// Route files to routes folder
+
+let songs = require('./routes/songs');
+app.use('/songs' , songs)
 
 
-// Add Song Route
+// Routes Files to User Folder
 
-app.get('/songs/add', function(req, res) {
-
-  res.render('add_song'), {}
-
-});
-
-// Submit Route
-
-app.post('/songs/add', function(req, res) {
-
-  let song = new Song();
-
-  song.name = req.body.name;
-  song.artist = req.body.artist;
-
-  song.save(function(err) {
-
-    if (err) {
-      console.log(err)
-    } else {
-      res.redirect('/');
-    }
-  })
-
-})
-
-// Route for Editing Single article
-
-app.get('/song/edit/:id', function(req, res) {
-
-    Song.findById(req.params.id, function(err, song) {
-
-      res.render('edit_song',
-
-      {song: song}
-    );
-
-    })
-  })
+let users = require('./routes/users')
+app.use('/users' , users)
 
 
 
 
-
-// Submit AFTER editing Route
-
-app.post('/songs/edit/:id', function(req, res) {
-
-  let song = {}
-
-  song.name = req.body.name;
-  song.artist = req.body.artist;
-
-let query = {_id:req.params.id}
-
-  Song.update(query, song, function(err) {
-
-    if (err) {
-      console.log(err)
-    } else {
-      res.redirect('/');
-    }
-  })
-
-})
-
-
-
-// Delete Request Using Jquery & Ajax
-
-app.delete('/song/:id' , function(req, res) {
-
-let query = { _id : req.params.id}
-
-Song.remove(query, function(err){
-
-if(err){
-  console.log(err)
-}
-res.send('Success')
-
-
-})
-
-})
 
 
 // Start Server

@@ -7,9 +7,9 @@ $(document).ready(function() {
 
       $.ajax({
         type:'DELETE',
-        url:'/song/'+id,
+        url:'/songs/'+id,
         success: function(response){
-          alert("8-| How Dare You! |-8");
+          alert(" How Dare You! ");
           window.location.href='/';
         },
         error: function (err){

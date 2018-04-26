@@ -1,8 +1,10 @@
 extends layout  
 
 block content
-  h1  Title: #{song.name}
-  h2  Artist: #{song.artist}
-  hr
-  a.btn.btn-primary(href='/song/edit/'+ song._id) Edit
-  a.btn.btn-danger.delete-song(href='#' , data-id=song._id) Delete
+  h1  Song Title: #{song.name}...
+  h2  Artist: #{song.artist} :)
+  hr  
+  if user   
+    a.btn.btn-primary(href='/songs/edit/'+ song._id) Edit
+    
+    a.btn.btn-danger.delete-song(href='#' , data-id=song._id) Delete

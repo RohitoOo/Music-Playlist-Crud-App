@@ -7,7 +7,7 @@ html
  body
    
    nav.navbar.navbar-expand-md.navbar-dark.bg-dark.mb-4
-    a.navbar-brand(href='#') Songs Playlist
+    a.navbar-brand(href='https://www.spotify.com/ca-en/' ,target="_blank") Songs Playlist
     button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarCollapse', aria-controls='navbarCollapse', aria-expanded='false', aria-label='Toggle navigation')
       span.navbar-toggler-icon
     #navbarCollapse.collapse.navbar-collapse
@@ -16,17 +16,27 @@ html
           a.nav-link(href='/')
             | Songs 
             span.sr-only (current)
-        li.nav-item
-          a.nav-link(href='/songs/add') Add Song
-        li.nav-item
+        if user    
+          li.nav-item
+            a.nav-link(href='/songs/add') Add Song
+        
       
       ul.navbar-nav.ml-auto
-        li.nav-item
-          a.nav-link(href='#') Login
-        li.nav-item
-          a.nav-link(href='#') Register
-        li.nav-item         
+        if user
+          li 
+            a(href='/users/logout') Logout
+        else 
+           
+          li.nav-item
+            a.nav-link(href= '/users/login') Login
+          li.nav-item
+            a.nav-link(href='/users/register') Register
+          li.nav-item         
  .container
+       != messages('message', locals)
+       if errors
+         each error, i in errors
+           div(class='alert alert-danger')  #{error.msg}
        block content
        br
        hr
