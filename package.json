@@ -4,6 +4,7 @@
   "description": "songs playlist crud app",
   "main": "app.js",
   "scripts": {
+    "build": "webpack",
     "start": "node app"
   },
   "author": "Rohito Bhambhani",
@@ -16,6 +17,7 @@
     "express-session": "^1.15.6",
     "express-validator": "^5.1.2",
     "mongoose": "^5.0.16",
+    "node-wifi": "^2.0.4",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "pug": "^2.0.3"

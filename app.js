@@ -7,6 +7,8 @@ const flash = require('connect-flash');
 const session = require('express-session')
 const passport = require('passport')
 const config = require('./config/database')
+var wifi = require('node-wifi');
+
 
 
 mongoose.connect(config.database)
@@ -46,8 +48,6 @@ app.use(bodyParser.json())
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-
 app.use(expressValidator());
 
 //Express session Middleware
@@ -79,7 +79,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-// Check if the user is logged in 
+// Check if the user is logged in
 
 app.get('*' , function(req, res, next){
 
@@ -91,7 +91,52 @@ next();
 
 // Home Route
 
+
+
+
+
 app.get('/', function(req, res) {
+
+console.log('WIFI');
+
+////
+
+
+wifi.init({
+    iface : null // network interface, choose a random wifi interface if set to null
+});
+
+wifi.getCurrentConnections(function(err, currentConnections) {
+    if (err) {
+        console.log(err);
+    }
+    console.log(currentConnections);
+    /*
+    // you may have several connections
+    [
+        {
+            iface: '...', // network interface used for the connection, not available on macOS
+            ssid: '...',
+            bssid: '...',
+            mac: '...', // equals to bssid (for retrocompatibility)
+            channel: <number>,
+            frequency: <number>, // in MHz
+            signal_level: <number>, // in dB
+            security: '...' //
+            security_flags: '...' // encryption protocols (format currently depending of the OS)
+            mode: '...' // network mode like Infra (format currently depending of the OS)
+        }
+    ]
+    */
+});
+
+
+
+
+
+/////
+
+
 
   Song.find({}, function(err, songs) {
     if (err) {
@@ -106,9 +151,6 @@ app.get('/', function(req, res) {
 });
 
 
-
-
-
 // Route files to routes folder
 
 let songs = require('./routes/songs');
@@ -119,10 +161,6 @@ app.use('/songs' , songs)
 
 let users = require('./routes/users')
 app.use('/users' , users)
-
-
-
-
 
 
 // Start Server
