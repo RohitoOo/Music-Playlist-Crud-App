@@ -7,7 +7,6 @@ const flash = require('connect-flash');
 const session = require('express-session')
 const passport = require('passport')
 const config = require('./config/database')
-var wifi = require('node-wifi');
 
 
 
@@ -32,6 +31,7 @@ const app = express();
 // Bring in the  Songs Model
 
 let Song = require('./models/song')
+
 
 // Load View Engine
 
@@ -79,32 +79,23 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-// Check if the user is logged in
-
-app.get('*' , function(req, res, next){
-
-res.locals.user = req.user || null ;
-next();
-
-});
+// // Check if the user is logged in
+//
+// app.get('*' , function(req, res, next){
+//
+// res.locals.user = req.user || null ;
+// next();
+//
+// });
 
 
 // Home Route
 
 
-
-
-
 app.get('/', function(req, res) {
 
 
-console.log('ID: ', req.user._id)
-
-
-  Song.find( {user : String(req.user._id) }, function(err, songs) {
-
-console.log(songs)
-
+  Song.find( {user :  ( req.user ? String(req.user._id) : null ) }, function(err, songs) {
 
     if (err) {
       console.log(err)
@@ -112,7 +103,8 @@ console.log(songs)
     } else {
       res.render('index', {
         titles: "Songs",
-        songs: songs
+        songs: songs,
+        user: req.user 
       })
     }
   })

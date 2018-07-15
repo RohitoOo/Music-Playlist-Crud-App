@@ -11,7 +11,7 @@ let User = require('../models/user');
 
 router.get('/add', ensureAuthenticated, function(req, res) {
 
-  res.render('add_song'), {user: req.user}
+  res.render('add_song', {user: req.user})
 
 });
 
@@ -43,7 +43,7 @@ router.get('/edit/:id', ensureAuthenticated, function(req, res) {
 
   Song.findById(req.params.id, function(err, song) {
 
-    res.render('edit_song', {song: song  });
+    res.render('edit_song', {song: song});
 
   })
 })
@@ -98,14 +98,12 @@ router.get('/:id', function(req, res) {
 
   Song.findById(req.params.id, function(err, song) {
 
-    User.findById(song.identity, function(err, user) {
+    res.render('song', {
 
-      res.render('song', {
+      song: song,
+      user: req.user
+    });
 
-        song: song,
-        // identity: user
-      });
-    })
   })
 })
 

@@ -9,55 +9,41 @@ let User = require('../models/user')
 
 //Register Form
 
-router.get('/register' , function(req, res) {
+router.get('/register', function(req, res) {
 
-res.render('register');
+  res.render('register');
 
 });
-
-
 
 // Register User Route
 
-router.post('/register' , function (req, res) {
+router.post('/register', function(req, res) {
 
+  const username = req.body.name;
+  const password = req.body.password;
+  const password2 = req.body.password2;
 
-const username = req.body.name;
-const password = req.body.password;
-const password2 = req.body.password2;
+  let newUser = new User({username: username, password: password});
 
-let newUser = new User({
+  req.checkBody('password2', "Passwords Do Not Match").equals(req.body.password);
 
-  username : username ,
-  password : password
-});
+  let errors = req.validationErrors();
 
-req.checkBody('password2' , "Passwords Do Not Match").equals(req.body.password);
+  if (errors) {
+    res.render('register', {errors: errors})
+  } else {
 
-let errors = req.validationErrors();
-
-if(errors){
-res.render('register' , {
-errors:errors
-})}
-  else {
-
-    newUser.save(function(err){
-      if(err){
+    newUser.save(function(err) {
+      if (err) {
         console.log(err);
         return;
-      }
-      else {
-        req.flash('success' , 'Registration Complete! Login and Create Your Playlist.' );
+      } else {
+        req.flash('success', 'Registration Complete! Login and Create Your Playlist.');
         res.redirect('/users/login');
       }
     })
   }
 });
-
-
-
-
 
 // if(errors){
 //   res.render('register');
@@ -67,10 +53,10 @@ errors:errors
 //   if(err){
 //     console.log(err)
 //   }
-  // else {
-  //   req.flash('success' , 'Registration Complete! Login and Create Your Playlist.' );
-  //   res.redirect('/');
-  // }
+// else {
+//   req.flash('success' , 'Registration Complete! Login and Create Your Playlist.' );
+//   res.redirect('/');
+// }
 // })
 // }
 
@@ -98,40 +84,32 @@ errors:errors
 
 // Login Form
 
-
-
-
-router.get('/login' ,   function (req, res) {
+router.get('/login', function(req, res) {
 
   res.render('login')
 });
 
-
 // Login Process
 
-router.post('/login' , function (req,res,next){
+router.post('/login', function(req, res, next) {
 
   passport.authenticate('local', {
 
-    successRedirect: '/' ,
+    successRedirect: '/',
     failureRedirect: '/users/login',
     failureFlash: true
-  })(req,res,next);
+  })(req, res, next);
 
 })
-
-
 
 // Logout
 
-router.get('/logout', function(req, res){
+router.get('/logout', function(req, res) {
 
   req.logout();
-  req.flash('success' , "Peace Out! ");
+  req.flash('success', "Peace Out! ");
   res.redirect('/users/login');
 
 })
-
-
 
 module.exports = router;
