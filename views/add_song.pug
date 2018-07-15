@@ -1,8 +1,8 @@
 extends layout
- 
+
 block content
 
-    h1 Add Song 
+    h1 Add Song
     form(method='POST', action='/songs/add')
       #form-group
         label Name:
@@ -11,7 +11,9 @@ block content
       #form-group
           label Artist:
           input.form-control(name='artist', type='text',required='')
-           
-      br    
-      input.btn.btn-primary(type='submit',value='Submit') 
-    
+      #form-group
+          label Artist:
+          input.form-control(name='user', type='hidden',required='', value=user.id)
+
+      br
+      input.btn.btn-primary(type='submit',value='Submit')

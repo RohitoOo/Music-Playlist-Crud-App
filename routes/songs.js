@@ -1,23 +1,17 @@
 const express = require('express');
 const router = express.Router();
 
-
-
 // Bring in the  Songs Model
 
 let Song = require('../models/song');
 
 let User = require('../models/user');
 
-
-
-
-
 // Add Song Route
 
 router.get('/add', ensureAuthenticated, function(req, res) {
 
-  res.render('add_song'), {}
+  res.render('add_song'), {user: req.user}
 
 });
 
@@ -29,14 +23,14 @@ router.post('/add', function(req, res) {
 
   song.name = req.body.name;
   song.artist = req.body.artist;
-  song.identiy = req.body._id;
+  song.user = req.body.user
 
   song.save(function(err) {
 
     if (err) {
       console.log(err)
     } else {
-      req.flash('success' , "Song Added To Playlist")
+      req.flash('success', "Song Added To Playlist")
       res.redirect('/');
     }
   })
@@ -47,19 +41,12 @@ router.post('/add', function(req, res) {
 
 router.get('/edit/:id', ensureAuthenticated, function(req, res) {
 
-    Song.findById(req.params.id, function(err, song) {
+  Song.findById(req.params.id, function(err, song) {
 
-      res.render('edit_song',
+    res.render('edit_song', {song: song  });
 
-      {song: song}
-    );
-
-    })
   })
-
-
-
-
+})
 
 // Submit AFTER editing Route
 
@@ -70,63 +57,61 @@ router.post('/edit/:id', function(req, res) {
   song.name = req.body.name;
   song.artist = req.body.artist;
 
-let query = {_id:req.params.id}
+  let query = {
+    _id: req.params.id
+  }
 
   Song.update(query, song, function(err) {
 
     if (err) {
       console.log(err)
     } else {
-      req.flash('success' , "Song Updated")
+      req.flash('success', "Song Updated")
       res.redirect('/');
     }
   })
 
 })
 
-
-
 // Delete Request Using Jquery & Ajax
 
-router.delete('/:id' , ensureAuthenticated, function(req, res) {
+router.delete('/:id', ensureAuthenticated, function(req, res) {
 
-let query = { _id : req.params.id}
+  let query = {
+    _id: req.params.id
+  }
 
-Song.remove(query, function(err){
+  Song.remove(query, function(err) {
 
-if(err){
-  console.log(err)
-}
-res.send('Success')
+    if (err) {
+      console.log(err)
+    }
+    res.send('Success')
 
+  })
 
 })
-
-})
-
 
 // Route for Single Song
 
 router.get('/:id', function(req, res) {
 
-    Song.findById(req.params.id, function(err, song) {
+  Song.findById(req.params.id, function(err, song) {
 
-      User.findById(song.identity , function (err , user){
+    User.findById(song.identity, function(err, user) {
 
-        res.render('song', {
+      res.render('song', {
 
-          song: song,
-          // identity: user
-        });
-      })
+        song: song,
+        // identity: user
+      });
     })
   })
+})
 
+function ensureAuthenticated(req, res, next) {
 
-
-function ensureAuthenticated(req, res, next ){
-
-  if(req.isAuthenticated()){
+  if (req.isAuthenticated()) {
 
     return next();
 
@@ -135,7 +120,5 @@ function ensureAuthenticated(req, res, next ){
     res.redirect('/users/login');
   }
 }
-
-
 
 module.exports = router;

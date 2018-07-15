@@ -1,4 +1,4 @@
-let mongoose = require('mongoose');
+ let mongoose = require('mongoose');
 
 //Song Schema
 
@@ -12,6 +12,11 @@ name:
 artist:
 {
   type: String,
+  required: true
+},
+user:
+{
+  type: Object,
   required: true
 }
 });

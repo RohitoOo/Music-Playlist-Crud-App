@@ -1,16 +1,15 @@
 extends layout
- 
+
 block content
 
-    h1 Edit Song 
+    h1 Edit Song
     form(method='POST', action='/songs/edit/'+song._id)
       #form-group
-        label Name: 
+        label Name:
         input.form-control(name='name', type='text' , value=song.name, required='')
       br
       #form-group
-          label Artist: 
+          label Artist:
           input.form-control(name='artist', type='text' ,value=song.artist, required='')
-      br    
-      input.btn.btn-primary(type='submit',value='Submit') 
-    
+      br
+      input.btn.btn-primary(type='submit',value='Submit')
