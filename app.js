@@ -98,7 +98,12 @@ next();
 app.get('/', function(req, res) {
 
 
-  Song.find({}, function(err, songs) {
+console.log('ID: ', req.user._id)
+
+
+  Song.find( {user : String(req.user._id) }, function(err, songs) {
+
+console.log(songs)
 
 
     if (err) {
