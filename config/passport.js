@@ -2,7 +2,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/user');
 const config = require('../config/database');
-// const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs')
 
 module.exports = function(passport){
 
@@ -14,58 +14,28 @@ module.exports = function(passport){
         if (!user) {
           return done(null, false, { message: 'You Been Drinking Again! Incorrect Username.' });
         }
-        if (user.password != password) {
-          return done(null, false, { message: 'Really N****!! Incorrect Password.' });
-        }
-        return done(null, user);
+
+        bcrypt.compare(password, user.password, function(err, isMatch) {
+
+
+        if (err) {
+                throw err;
+              }
+              if (isMatch) {
+                return done(null, user)
+
+              } else {
+                return done(null, false, {message: "Password Did Not Match"})
+              }
+   })
+
       });
     }
   ));
 
 
-
-
-
-
-
 }
 
-
-//
-//
-//
-// passport.use(new LocalStrategy(function(username, password, done){
-//
-// //Match username
-//
-// // let queryy = {username:username};
-//
-// User.findOne({ username: username }, function(err, user){
-//
-//   if(err) { return done(err); }
-//   if(!user){
-//     return done (null, false, {message: 'User Not Found'})
-//   }
-// // Match Password with bcrypt's compare method
-//
-//
-//
-//
-//
-//
-//
-//   bcrypt.compare(password, user.password, function (err , isMatch){
-//     if(err) throw err;
-//
-//     if(isMatch){
-//       return done (null, user);
-//     }else {
-//       return done (null, false, {message: 'Wrong Password'})
-//     }
-//   })
-// })
-// }))
-//
 passport.serializeUser(function(user, done) {
     done(null, user.id);
   });

@@ -67,31 +67,6 @@ bcrypt.genSalt(10, function(err, salt) {
 });
 
 
-// bcrypt.genSalt(10, function (err, salt){
-//   bcrypt.hash(newUser.password , salt , function(err , hash) {
-//
-//     if(err){
-//
-//       console.log(err);
-//     }
-//     newUser.password = hash ;
-//
-//
-//     newUser.save(function(err){
-//       if(err){
-//         console.log(err);
-//         return;
-//       }
-//       else {
-//         req.flash('success' , 'Registration Complete! Login and Create Your Playlist.' );
-//         res.redirect('/users/login');
-//       }
-//     })
-//   })
-// })
-
-
-
 // Login Form
 
 router.get('/login', function(req, res) {
