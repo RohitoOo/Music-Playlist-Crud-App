@@ -25,6 +25,8 @@ router.post('/register', function(req, res) {
 
   let newUser = new User({username: username, password: password});
 
+
+
   req.checkBody('password2', "Passwords Do Not Match").equals(req.body.password);
 
   let errors = req.validationErrors();
@@ -32,6 +34,19 @@ router.post('/register', function(req, res) {
   if (errors) {
     res.render('register', {errors: errors})
   } else {
+
+
+bcrypt.genSalt(10, function(err, salt) {
+
+    bcrypt.hash(newUser.password, salt , (err, hash) => {
+
+      if(err) {
+            console.log(err)
+          }
+    // Password converted to Hash
+        newUser.password = hash
+
+    // Ready to save to Database
 
     newUser.save(function(err) {
       if (err) {
@@ -42,25 +57,16 @@ router.post('/register', function(req, res) {
         res.redirect('/users/login');
       }
     })
+
+    } )
+
+
+})
+
   }
 });
 
-// if(errors){
-//   res.render('register');
-// }else {
-//
-// newUser.save(function(err){
-//   if(err){
-//     console.log(err)
-//   }
-// else {
-//   req.flash('success' , 'Registration Complete! Login and Create Your Playlist.' );
-//   res.redirect('/');
-// }
-// })
-// }
 
-//
 // bcrypt.genSalt(10, function (err, salt){
 //   bcrypt.hash(newUser.password , salt , function(err , hash) {
 //
@@ -69,6 +75,8 @@ router.post('/register', function(req, res) {
 //       console.log(err);
 //     }
 //     newUser.password = hash ;
+//
+//
 //     newUser.save(function(err){
 //       if(err){
 //         console.log(err);
@@ -81,6 +89,8 @@ router.post('/register', function(req, res) {
 //     })
 //   })
 // })
+
+
 
 // Login Form
 
