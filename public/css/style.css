@@ -11,3 +11,8 @@ border-color: #ebccd1
   back-ground: #dff0d8;
   border-color: #d6e9c6;
 }
+
+.btn {
+
+  margin : .5em;
+}
