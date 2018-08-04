@@ -8,7 +8,7 @@ const session = require('express-session')
 const passport = require('passport')
 const config = require('./config/database')
 
-
+// Testing Heroku
 
 mongoose.connect(config.database)
 let db = mongoose.connection;
@@ -104,7 +104,7 @@ app.get('/', function(req, res) {
       res.render('index', {
         titles: "Songs",
         songs: songs,
-        user: req.user 
+        user: req.user
       })
     }
   })
