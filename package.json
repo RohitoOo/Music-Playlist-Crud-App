@@ -4,8 +4,7 @@
   "description": "songs playlist crud app",
   "main": "app.js",
   "scripts": {
-    "build": "webpack",
-    "start": "node app"
+    "start": "node app.js"
   },
   "author": "Rohito Bhambhani",
   "license": "ISC",
