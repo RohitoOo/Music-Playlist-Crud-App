@@ -1,20 +1,38 @@
 extends layout
 
 block content
- br
- h1 Register
- form(method='POST', action='/users/register')
-      br  
-      #form-group
-        label Username:
-        input.form-control(name='name', type='text' ,required='')
-      br
-      #form-group
-        label Password:
-        input.form-control(name='password', type='password' ,required='')
-      br
-      #form-group
-        label Confirm Password:
-        input.form-control(name='password2', type='password' ,required='')
-      br        
-      input.btn.btn-primary(type='submit',value='Submit')
+  br
+  link(rel='stylesheet', href='/css/style.css')
+  h1 Register
+  form(method='POST', action='/users/register')
+    br
+    #form-group
+      label Username:
+      input.form-control(name='name', type='text', required='')
+    br
+    #form-group
+      label Password:
+      input#psw.form-control(name='password', type='password', required='')
+    br
+    #message(style='display : none')
+      h3 Password must contain the following:
+      p#letter.invalid
+        | A 
+        b lowercase
+        |  letter
+      p#capital.invalid
+        | A 
+        b capital (uppercase)
+        |  letter
+      p#number.invalid
+        | A 
+        b number
+      p#length.invalid
+        | Minimum 
+        b 8 characters
+    #form-group
+      label Confirm Password:
+      input#psw.form-control(name='password2', type='password', required='')
+    br
+    input.btn.btn-primary(type='submit', value='Submit')
+    script(src='/js/passwordValidation.js')
