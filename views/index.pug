@@ -1,11 +1,23 @@
 extends layout
 
 block content
-  h2 #{titles}
+  h2 #{titles} 
+    br
     if songs.length
+      br
       ul.list-group
         each song, i in songs
-          li.list-group-item
-            a(href='/songs/'+song.id)= song.name
+          li.list-group-item 
+            a(href='/songs/'+song.id)=  song.name 
+            h2  #{song.artist} 
+          br  
+        br
+              
+
+        input.btn.btn-primary(value='Add Song' onclick="move()")
     else
       h6 No Songs Added Yet...
+        input.btn.btn-primary(value='Add Song' onclick="move()")
+    if user
+    else
+      input.btn.btn-primary(value='Login' onclick="navigateToLogin()")

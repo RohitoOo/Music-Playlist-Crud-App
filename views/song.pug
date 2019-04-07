@@ -1,10 +1,13 @@
 extends layout
 
 block content
-  h1  Song Title: #{song.name}...
-  h2  Artist: #{song.artist} :)
+  h1  Song Title: #{song.name} &#9835;
+  h2  Artist: #{song.artist} &#9835;
   hr
   if user && song && song.user == user.id
     a.btn.btn-primary(href='/songs/edit/'+ song._id) Edit
 
     a.btn.btn-danger.delete-song(href='#' , data-id=song._id) Delete
+  hr
+  a.btn.btn-primary(href='/') &#9835; All Songs &#9835;
+
