@@ -26,3 +26,7 @@ function navigateToLogin() {
 function navigateToRegister() {
   window.location.href = "/users/register"
 }
+function listenNow(name, artist) {
+  window.location.href =
+    "https://www.google.com/search?q=" + artist + "+" + name
+}

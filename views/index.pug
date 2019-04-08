@@ -10,10 +10,8 @@ block content
           li.list-group-item 
             a(href='/songs/'+song.id)=  song.name 
             h2  #{song.artist} 
-          br  
-        br
-              
-
+            input.btn.btn-secondary(onclick='listenNow(\'' + song.name + '\',\'' + song.artist + '\')' value='Listen Now')
+            
         input.btn.btn-primary(value='Add Song' onclick="move()")
     else
       h6 No Songs Added Yet...
